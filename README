@@ -1,0 +1,13 @@
+# life
+
+FIXME: Implementation of Conway's Game of Life.
+
+## Usage
+
+FIXME: write
+
+## License
+
+Copyright (C) 2011 Bruce Adams
+
+Distributed under the Eclipse Public License, the same as Clojure.
