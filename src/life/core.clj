@@ -19,24 +19,35 @@
   (= 3 live-neighbors))
 
 (defn neighborhood [p]
-  "Return the set of cell coordinates that make up the Moore
-   neighborhood around and including the given cell."
-  (set (for [x (range (- (first p) 1) (+ (first p) 2))
-	     y (range (- (last  p) 1) (+ (last  p) 2))]
-         [x y])))
+  "Return the set of cell coordinates of the Moore neighbors of the
+   given cell."
+  (difference (set (for [x (range (- (first p) 1) (+ (first p) 2))
+                         y (range (- (last  p) 1) (+ (last  p) 2))]
+                     [x y]))
+              #{p}))
 
-(defn neighbor-count [p live-cells]
+(defn live-neighbor-count [p live-cells]
+  "Return the number of live neighbors of the given cell."
   (count (intersection (neighborhood p) live-cells)))
 
-(defn interesting-cells [live-cells]
-  "For a set of live cells, return a superset that adds all neighbors
-   of the live cells."
-  (apply union (map neighborhood live-cells)))
+(defn nearby-dead-cells [live-cells]
+  "For a set of live cells, return a set of all neighboring dead
+   cells."
+  (difference (apply union (map neighborhood live-cells)) live-cells))
+
+(defn live-on [live-cells]
+  "Return the set of live cells that will remain alive in the next
+   tick."
+  (select #(stay-alive? (live-neighbor-count % live-cells))
+          live-cells))
+
+(defn new-life [live-cells]
+  "Return the set of currently dead cells that will come to life in the
+   next tick."
+  (select #(come-alive? (live-neighbor-count % live-cells))
+          (nearby-dead-cells live-cells)))
 
 (defn tick [live-cells]
-  (apply union
-         (select #(stay-alive? (- (neighbor-count % live-cells) 1))
-                 live-cells)
-         (select #(come-alive? (neighbor-count % live-cells))
-                 (difference (interesting-cells live-cells) live-cells))))
-
+  "Return the set of live cells in the next tick of Conway's Game of
+   Life."
+  (union (live-on live-cells) (new-life live-cells)))
