@@ -108,3 +108,9 @@
              [2 0]
              [3 0] [3 1]}
            (tick R-pentomino)))))
+
+(def ascii-format-test
+  (is (= ["   * *"
+          " * *  "
+          "   *  "]
+         (ascii-format R-pentomino))))

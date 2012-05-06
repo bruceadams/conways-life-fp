@@ -51,3 +51,7 @@
   "Return the set of live cells in the next tick of Conway's Game of
    Life."
   (union (live-on live-cells) (new-life live-cells)))
+
+(defn ascii-format [live-tests]
+  (let [xmin () ymin () xmax () ymax ()]
+    ))
