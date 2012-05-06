@@ -21,8 +21,8 @@
 (defn neighborhood [p]
   "Return the set of cell coordinates of the Moore neighbors of the
    given cell."
-  (difference (set (for [x (range (- (first p) 1) (+ (first p) 2))
-                         y (range (- (last  p) 1) (+ (last  p) 2))]
+  (difference (set (for [x (range (dec (first p)) (inc (inc (first p))))
+                         y (range (dec (last  p)) (inc (inc (last  p))))]
                      [x y]))
               #{p}))
 
