@@ -4,4 +4,5 @@
 .lein-failures
 /classes/
 /lib/
+/target/
 pom.xml
